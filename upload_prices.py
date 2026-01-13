@@ -13,6 +13,17 @@ class Credentials(BaseModel):
     client_id: str
     client_secret: str
 
+def get_access_token(credentials: Credentials) -> str:
+    """
+    Authenticate with the API using OAuth2 client credentials.
+    Returns the access token for subsequent API calls.
+    """
+    response = requests.post(
+        f"{API}/oauth2/v2.0/token",
+        auth=HTTPBasicAuth(credentials.client_id, credentials.client_secret),
+    )
+    response.raise_for_status()
+    return response.json()["access_token"]
 
 # TODO: implement authentication and upload
 def upload_prices(credentials: Credentials, data: pd.DataFrame):

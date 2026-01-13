@@ -76,7 +76,8 @@ def upload_prices(credentials: Credentials, data: pd.DataFrame):
         if num_imported == 0:
             print("API backpressure - retrying...")
     
-    print(f"\n✅ Successfully uploaded all {uploaded_count} products!")
+    print(f"\n✅ Successfully uploaded all {start_index} products!")
+
     
     # Validate the upload
     response = requests.get(

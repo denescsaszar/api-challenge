@@ -53,12 +53,12 @@ def upload_prices(credentials: Credentials, data: pd.DataFrame):
             "prices": prices
         })
     
-    # Upload in batches (max 1000 products per request)
+# Upload in batches (max 1000 products per request)
     batch_size = 1000
-    uploaded_count = 0
+    start_index = 0
     
-    while uploaded_count < len(products_data):
-        batch = products_data[uploaded_count:uploaded_count + batch_size]
+    while start_index < len(products_data):
+        batch = products_data[start_index:start_index + batch_size]
         
         response = requests.post(
             f"{API}/product-prices",
@@ -68,14 +68,13 @@ def upload_prices(credentials: Credentials, data: pd.DataFrame):
         response.raise_for_status()
         
         num_imported = response.json()["num_imported"]
-        uploaded_count += num_imported
+        start_index += num_imported
         
-        print(f"Uploaded {num_imported} products (total: {uploaded_count}/{len(products_data)})")
+        print(f"Uploaded {num_imported} products (total: {start_index}/{len(products_data)})")
         
         # If API didn't accept all products (backpressure), retry
         if num_imported == 0:
             print("API backpressure - retrying...")
-            continue
     
     print(f"\n✅ Successfully uploaded all {uploaded_count} products!")
     

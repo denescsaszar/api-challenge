@@ -1,8 +1,7 @@
-# 7Learnings API Backend Challenge
-
+# API Backend Challenge
 ## Solution by Denes Csaszar
 
-This project implements a Python client to upload product prices to the 7Learnings API.
+This project implements a Python client to upload product prices to the API.
 
 ## Problem Description
 
